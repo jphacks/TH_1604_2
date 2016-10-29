@@ -9,7 +9,7 @@ namespace TsuraiClient
 			InitializeComponent();
 
 			if (Device.OS.ToString().Contains("Android")) {
-				MainPage = new Views.TsuraiCheckPage();
+				MainPage = new Views.AndroidRootMasterDetailPage();
 			} else {
 				MainPage = new Views.TsuraiCheckPage();	
 			}

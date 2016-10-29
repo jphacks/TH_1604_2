@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="TsuraiClient.Views.AndroidRootMasterPage">
+	<ContentPage.Content>
+		<StackLayout VerticalOptions="FillAndExpand">
+			<ContentView Padding="16,128,16,16"/>
+			<ListView x:Name="pageListView" VerticalOptions="FillAndExpand">
+				<ListView.ItemTemplate>
+					<DataTemplate>
+						<TextCell Text="{Binding Title}" />
+					</DataTemplate>
+				</ListView.ItemTemplate>
+			</ListView>
+		</StackLayout>
+	</ContentPage.Content>
+</ContentPage>
