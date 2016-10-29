@@ -8,7 +8,6 @@ namespace TsuraiClient
 		{
 			InitializeComponent();
 
-			//MainPage = new TsuraiClientPage();
 			MainPage = new Views.TsuraiCheckPage();
 		}
 

@@ -51,6 +51,7 @@ namespace TsuraiClient.ViewModels
 				{
 					result = value;
 					PropertyChanged(this, new PropertyChangedEventArgs(nameof(Result)));
+					//IsTsuraiCommand.ChangeCanExecute();
 				}
 			}
 		}
