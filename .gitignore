@@ -38,3 +38,6 @@ Thumbs.db
 
 # dotCover
 *.dotCover
+
+# Config
+TsuraiClient/Config/GlobalSettings.cs
