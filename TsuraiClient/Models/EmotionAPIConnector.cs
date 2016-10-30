@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Net.Http;
+using TsuraiClient.Extentions;
 
 namespace TsuraiClient.Models
 {
@@ -38,6 +40,20 @@ namespace TsuraiClient.Models
 			return client;
 		}
 
+		private async void _JudgeUserEmotionPhoto(byte[] image) 
+		{
+			var client = getEmotionAPIClient();
+
+			var fileContent = new StreamContent(new MemoryStream(image));
+			fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/octet-stream");
+
+			var response = await client.PostAsync("recognize", fileContent);
+
+			OnResponseRecieved(new ResponseEventArgs(response.StatusCode == System.Net.HttpStatusCode.OK, response.Content.ReadAsStringAsync().Result));
+		}
+
+		public async void JudgeUserEmotionPhoto(byte[] image) => _JudgeUserEmotionPhoto(image);
+
 		public async void JudgeUserEmotionPhoto(System.IO.Stream fileStream)
 		{
 			if (!fileStream.CanRead) 
@@ -47,14 +63,7 @@ namespace TsuraiClient.Models
 				return;
 			}
 
-			var client = getEmotionAPIClient();
-
-			var fileContent = new StreamContent(fileStream);
-			fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/octet-stream");
-
-			var response = await client.PostAsync("recognize", fileContent);
-
-			OnResponseRecieved(new ResponseEventArgs(response.StatusCode == System.Net.HttpStatusCode.OK, response.Content.ReadAsStringAsync().Result));
+			_JudgeUserEmotionPhoto(fileStream.ReadFully());
 		}
 
 		public class ResponseEventArgs : EventArgs

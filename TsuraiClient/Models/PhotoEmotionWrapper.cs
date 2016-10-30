@@ -1,6 +1,7 @@
 ﻿using System;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
+using Xamarin.Forms;
 
 namespace TsuraiClient.Models
 {
@@ -72,7 +73,12 @@ namespace TsuraiClient.Models
 					return;
 				}
 
-				Models.EmotionAPIConnector.Instance.JudgeUserEmotionPhoto(file.GetStream());
+				// crop min height or width to 512
+				var image = DependencyService.Get<Services.IImageProcessingService>().ShrinkImage(file.GetStream(), 512f);
+				if (image != null)
+					EmotionAPIConnector.Instance.JudgeUserEmotionPhoto(image);
+				else
+					EmotionAPIConnector.Instance.JudgeUserEmotionPhoto(file.GetStream());
 			}
 			else
 			{
