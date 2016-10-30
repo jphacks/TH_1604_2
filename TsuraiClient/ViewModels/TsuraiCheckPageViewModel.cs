@@ -18,6 +18,13 @@ namespace TsuraiClient.ViewModels
 				Result = e.Succeed ? e.Response : "サーバーとの通信エラー";
 			};
 
+			Models.TsuraiAPIConnector.Instance.OnResponseRecieved += (e) =>
+			{
+				System.Diagnostics.Debug.WriteLine(e.Succeed);
+				System.Diagnostics.Debug.WriteLine(e.Response ?? "");
+				Result = e.Succeed ? e.Response : "サーバーとの通信エラー";
+			};
+
 			Models.PhotoEmotionWrapper.Instance.OnCameraError += (e) =>
 			{
 				System.Diagnostics.Debug.WriteLine(e.ErrorCode);
@@ -33,7 +40,7 @@ namespace TsuraiClient.ViewModels
 
 			this.IsTsuraiCommand = new Command(() =>
 			{
-				Models.PhotoEmotionWrapper.Instance.GetUserEmotion(Models.PhotoEmotionWrapper.MediaType.Photo);
+				Models.PhotoEmotionWrapper.Instance.GetUserEmotion(Models.PhotoEmotionWrapper.MediaType.Photo, isOfficial);
 			}, () => true);
 		}
 
@@ -52,6 +59,21 @@ namespace TsuraiClient.ViewModels
 					result = value;
 					PropertyChanged(this, new PropertyChangedEventArgs(nameof(Result)));
 					//IsTsuraiCommand.ChangeCanExecute();
+				}
+			}
+		}
+
+		private bool isOfficial;
+		public bool IsOfficial
+		{
+			get {
+				return isOfficial;
+			}
+			set {
+				if (isOfficial != value)
+				{
+					isOfficial = value;
+					PropertyChanged(this, new PropertyChangedEventArgs(nameof(IsOfficial)));
 				}
 			}
 		}

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 using Xamarin.Forms;
@@ -42,11 +43,11 @@ namespace TsuraiClient.Models
 			SaveToAlbum = false
 		};
 
-		public void GetUserEmotion(MediaType type) 
+		public void GetUserEmotion(MediaType type, bool isOfficial = false) 
 		{
 			switch (type) {
 				case MediaType.Photo:
-					GetEmotionWithPhoto();
+					GetEmotionWithPhoto(isOfficial);
 					break;
 				case MediaType.Picker:
 				case MediaType.Video:
@@ -55,7 +56,7 @@ namespace TsuraiClient.Models
 			}
 		}
 
-		private async void GetEmotionWithPhoto()
+		private async void GetEmotionWithPhoto(bool isOfficial)
 		{
 			//
 			await CrossMedia.Current.Initialize();
@@ -75,10 +76,19 @@ namespace TsuraiClient.Models
 
 				// crop min height or width to 512
 				var image = DependencyService.Get<Services.IImageProcessingService>().ShrinkImage(file.GetStream(), 512f);
-				if (image != null)
-					EmotionAPIConnector.Instance.JudgeUserEmotionPhoto(image);
-				else
-					EmotionAPIConnector.Instance.JudgeUserEmotionPhoto(file.GetStream());
+
+				if (image != null) {
+					if (isOfficial)
+						EmotionAPIConnector.Instance.JudgeUserEmotionPhoto(image);	
+					else
+						TsuraiAPIConnector.Instance.JudgeUserEmotionPhoto(image);	
+				}
+				else {
+					if (isOfficial)
+						EmotionAPIConnector.Instance.JudgeUserEmotionPhoto(file.GetStream());
+					else
+						TsuraiAPIConnector.Instance.JudgeUserEmotionPhoto(file.GetStream());
+				}
 			}
 			else
 			{

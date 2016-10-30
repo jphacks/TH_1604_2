@@ -9,5 +9,11 @@
 		<Label
 				Text="{Binding Result,Mode=OneWay}"
 				TextColor="Red"/>
+
+		<Label
+				Text="公式"
+				TextColor="White" />
+		<Switch
+				IsToggled="{Binding IsOfficial, Mode=TwoWay}" />
 	</StackLayout>
 </ContentPage>
