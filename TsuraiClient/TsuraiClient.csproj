@@ -36,10 +36,13 @@
     <EmbeddedResource Include="Views\UserStatusAnalyticsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\AndroidRootMasterDetailPage.xaml">
+    <EmbeddedResource Include="Views\Platform\AndroidRootMasterDetailPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\AndroidRootMasterPage.xaml">
+    <EmbeddedResource Include="Views\Platform\AndroidRootMasterPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Platform\iOSRootTabbedPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
@@ -61,15 +64,18 @@
     <Compile Include="Views\UserStatusAnalyticsPage.xaml.cs">
       <DependentUpon>UserStatusAnalyticsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AndroidRootMasterDetailPage.xaml.cs">
-      <DependentUpon>AndroidRootMasterDetailPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\AndroidRootMasterPage.xaml.cs">
-      <DependentUpon>AndroidRootMasterPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Services\IAndroidActivityControlService.cs" />
     <Compile Include="Services\IImageProcessingService.cs" />
     <Compile Include="Extentions\ByteArrayExtention.cs" />
+    <Compile Include="Views\Platform\AndroidRootMasterDetailPage.xaml.cs">
+      <DependentUpon>AndroidRootMasterDetailPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Platform\AndroidRootMasterPage.xaml.cs">
+      <DependentUpon>AndroidRootMasterPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Platform\iOSRootTabbedPage.xaml.cs">
+      <DependentUpon>iOSRootTabbedPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Plugin.Media.Abstractions">
@@ -102,6 +108,9 @@
     <Reference Include="OxyPlot.Xamarin.Forms">
       <HintPath>..\packages\OxyPlot.Xamarin.Forms.1.0.0-unstable0676\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10\OxyPlot.Xamarin.Forms.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -113,6 +122,8 @@
     <Folder Include="Config\" />
     <Folder Include="Services\" />
     <Folder Include="Extentions\" />
+    <Folder Include="Models\Entities\" />
+    <Folder Include="Views\Platform\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.3.2.127\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.3.2.127\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />

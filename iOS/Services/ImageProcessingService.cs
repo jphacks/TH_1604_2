@@ -6,6 +6,7 @@ using TsuraiClient.iOS;
 using TsuraiClient.Extentions;
 using UIKit;
 
+[assembly: Xamarin.Forms.Dependency(typeof(TsuraiClient.iOS.ImageProcessingService))]
 namespace TsuraiClient.iOS
 {
 	// https://bortolu.wordpress.com/2014/03/21/xamarin-c-how-to-convert-byte-array-to-uiimage-with-an-extension-method/
@@ -70,6 +71,7 @@ namespace TsuraiClient.iOS
 		public byte[] ShrinkImage(Stream fileStream, float minSize)
 		{
 			var byteImage = fileStream.ReadFully();
+			fileStream.Position = 0;
 			if (byteImage == null) {
 				return null;
 			}
