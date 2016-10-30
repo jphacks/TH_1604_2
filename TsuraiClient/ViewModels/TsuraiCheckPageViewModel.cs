@@ -12,10 +12,27 @@ namespace TsuraiClient.ViewModels
 		{
 			result = "";
 
-			Models.EmotionAPIConnector.Instance.OnResponseRecieved += (e) => {
-				System.Diagnostics.Debug.WriteLine(e.Succeed);
-				System.Diagnostics.Debug.WriteLine(e.Response ?? "");
-				Result = e.Succeed ? e.Response : "サーバーとの通信エラー";
+			Models.EmotionAPIConnector.Instance.OnResultRecieved+= (e) => {
+				if (e == null) {
+					Result = "サーバーとの通信エラー";
+				} else {
+					if (e.Model == null) {
+						Result = "サーバーとの通信エラー";
+					} else {
+						var sum = (e.Model.scores.fear + e.Model.scores.neutral + e.Model.scores.sadness) / 3f;
+						if (sum > 0.8) {
+							Result = "すごく つらい";
+						} else if (sum > 0.6) {
+							Result = "そこそこ つらい";
+						} else if (sum > 0.4) {
+							Result = "まぁ つらい";
+						} else if (sum > 0.2) {
+							Result = "まぁ なんとか";
+						} else {
+							Result = "まだまだ 余裕";
+						}
+					}
+				}
 			};
 
 			Models.TsuraiAPIConnector.Instance.OnResponseRecieved += (e) =>
@@ -41,6 +58,8 @@ namespace TsuraiClient.ViewModels
 			this.IsTsuraiCommand = new Command(() =>
 			{
 				Models.PhotoEmotionWrapper.Instance.GetUserEmotion(Models.PhotoEmotionWrapper.MediaType.Photo, isOfficial);
+				Result = "診断中";
+
 			}, () => true);
 		}
 

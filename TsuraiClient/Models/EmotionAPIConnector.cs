@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net.Http;
+using System.Linq;
 using TsuraiClient.Extentions;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace TsuraiClient.Models
 		private static EmotionAPIConnector instance;
 
 		public delegate void RecievedEventHandler(ResponseEventArgs e);
-		public event RecievedEventHandler OnResponseRecieved;
+		public event RecievedEventHandler OnResultRecieved;
 
 		private static string API_KEY = GlobalSettings.EmotionAPI_KEY;
 		private static string ENDPOINT = GlobalSettings.EmotionAPI_BASE_URL;
@@ -53,11 +54,11 @@ namespace TsuraiClient.Models
 
 			if (response.StatusCode == System.Net.HttpStatusCode.OK)
 			{
-				var jsonDes = Utils.JsonConverterWrapper.Deserialize<List<Models.Entities.OfficialEmotionAPIJsonModel>>(response.Content.ReadAsStringAsync().Result, () => null);
-				System.Diagnostics.Debug.WriteLine(jsonDes);
+				var jsonDes = Utils.JsonConverterWrapper.Deserialize<List<Models.Entities.OfficialEmotionAPIJsonModel>>(response.Content.ReadAsStringAsync().Result, () => null).FirstOrDefault();
+				OnResultRecieved(new ResponseEventArgs(response.StatusCode == System.Net.HttpStatusCode.OK, jsonDes));
+			} else {
+				OnResultRecieved(new ResponseEventArgs(response.StatusCode == System.Net.HttpStatusCode.OK, null));	
 			}
-
-			OnResponseRecieved(new ResponseEventArgs(response.StatusCode == System.Net.HttpStatusCode.OK, response.Content.ReadAsStringAsync().Result));
 		}
 
 		public async void JudgeUserEmotionPhoto(byte[] image) => _JudgeUserEmotionPhoto(image);
@@ -67,7 +68,7 @@ namespace TsuraiClient.Models
 			if (!fileStream.CanRead) 
 			{
 				var args = new ResponseEventArgs(false);
-				OnResponseRecieved(args);
+				OnResultRecieved(args);
 				return;
 			}
 
@@ -77,12 +78,12 @@ namespace TsuraiClient.Models
 		public class ResponseEventArgs : EventArgs
 		{
 			public bool Succeed { get; }
-			public string Response { get; }
+			public Entities.OfficialEmotionAPIJsonModel Model { get; }
 
-			public ResponseEventArgs(bool succeed, string response = null)
+			public ResponseEventArgs(bool succeed, Entities.OfficialEmotionAPIJsonModel model = null)
 			{
 				Succeed = succeed;
-				Response = response;
+				Model = model;
 			}
 		}
 	}

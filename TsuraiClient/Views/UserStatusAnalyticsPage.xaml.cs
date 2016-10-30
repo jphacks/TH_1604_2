@@ -12,7 +12,7 @@ namespace TsuraiClient.Views
 			InitializeComponent();
 			this.Content = new OxyPlot.Xamarin.Forms.PlotView
 			{
-				Model = new PlotModel { Title = "Hello, Forms!" },
+				Model = new PlotModel { Title = "ここにいいグラフが出てくる予定" },
 				VerticalOptions = LayoutOptions.Fill,
 				HorizontalOptions = LayoutOptions.Fill,
 			};

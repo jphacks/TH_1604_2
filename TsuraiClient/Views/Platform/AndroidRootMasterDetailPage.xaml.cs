@@ -19,6 +19,8 @@ namespace TsuraiClient.Views
 			masterPage.PageListView.ItemSelected += OnItemSelected;
 
 			masterPage.PageListView.SelectedItem = ((List<MasterPageItem>)masterPage.PageListView.ItemsSource)[0];
+
+			//masterPage.PageListView.BackgroundColor = Color.Purple;
 		}
 
 		async void OnItemSelected(object sender, SelectedItemChangedEventArgs e)

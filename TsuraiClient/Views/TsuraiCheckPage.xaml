@@ -1,19 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="TsuraiClient.Views.TsuraiCheckPage">
-	<StackLayout BackgroundColor="Black" Orientation="Vertical">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="100" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="150" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*"/>
+		</Grid.ColumnDefinitions>
+
 		<Button 
+			Grid.Row="0"
 			Text="つらい？" 
-			TextColor="White" 
-			BackgroundColor="Transparent" 
 			Command="{Binding IsTsuraiCommand}"/>
 		<Label
+				Grid.Row="1"
 				Text="{Binding Result,Mode=OneWay}"
+				FontSize="30"
 				TextColor="Red"/>
-
-		<Label
-				Text="公式"
-				TextColor="White" />
-		<Switch
-				IsToggled="{Binding IsOfficial, Mode=TwoWay}" />
-	</StackLayout>
+		<TableView Grid.Row="2">
+			<TableView.Root>
+				<TableSection Title="デバッグ">
+					<SwitchCell
+							Text="公式API"
+							On="{Binding IsOfficial,Mode=TwoWay}" />
+				</TableSection>
+			</TableView.Root>
+		</TableView>
+	</Grid>
 </ContentPage>

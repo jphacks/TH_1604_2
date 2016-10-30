@@ -14,7 +14,6 @@ namespace TsuraiClient.Models
 		public delegate void RecievedEventHandler(ResponseEventArgs e);
 		public event RecievedEventHandler OnResponseRecieved;
 
-		//private static string API_KEY = GlobalSettings.EmotionAPI_KEY;
 		private static string ENDPOINT = GlobalSettings.TsuraiAPI_BASE_URL;
 
 		private TsuraiAPIConnector() { }

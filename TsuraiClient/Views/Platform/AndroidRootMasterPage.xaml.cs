@@ -15,6 +15,8 @@ namespace TsuraiClient.Views
 
 			PageListView = pageListView;
 
+			BackgroundColor = Color.FromHex("dce8ef");
+
 			var pageItems = new List<MasterPageItem>();
 			pageItems.Add(new MasterPageItem()
 			{
