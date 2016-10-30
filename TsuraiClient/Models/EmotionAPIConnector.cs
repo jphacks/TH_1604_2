@@ -2,6 +2,8 @@
 using System.IO;
 using System.Net.Http;
 using TsuraiClient.Extentions;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace TsuraiClient.Models
 {
@@ -48,6 +50,12 @@ namespace TsuraiClient.Models
 			fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/octet-stream");
 
 			var response = await client.PostAsync("recognize", fileContent);
+
+			if (response.StatusCode == System.Net.HttpStatusCode.OK)
+			{
+				var jsonDes = Utils.JsonConverterWrapper.Deserialize<List<Models.Entities.OfficialEmotionAPIJsonModel>>(response.Content.ReadAsStringAsync().Result, () => null);
+				System.Diagnostics.Debug.WriteLine(jsonDes);
+			}
 
 			OnResponseRecieved(new ResponseEventArgs(response.StatusCode == System.Net.HttpStatusCode.OK, response.Content.ReadAsStringAsync().Result));
 		}
